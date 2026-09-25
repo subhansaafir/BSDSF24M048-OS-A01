@@ -27,3 +27,26 @@ In this feature, we created the annotated tag `v0.1.1-multifile` to mark our mul
 A GitHub Release provides a way to publish a particular version of a project based on a Git tag. It allows users to obtain a specific stable version of the project.
 
 Attaching the compiled `bin/client` executable allows users to download and run the already-built program without compiling the source code themselves.
+
+
+## Feature 3 — Creating and Using Static Library
+
+### Q1. Compare the Makefile from Part 2 and Part 3.
+
+In Part 2, the Makefile directly compiled all the source files and linked them together to create the executable `bin/client`.
+
+In Part 3, the Makefile was modified to first compile the utility source files into object files and then package them into the static library `lib/libmyutils.a`. The `main.o` object file is then linked against this static library to create `bin/client_static`.
+
+Therefore, Part 2 directly links the source files, while Part 3 uses a reusable static library.
+
+### Q2. What is the purpose of the `ar` command? Why is `ranlib` often used immediately after it?
+
+The `ar` command is used to create and manage archive files. In this project, it combines the object files `mystrfunctions.o` and `myfilefunctions.o` into the static library `libmyutils.a`.
+
+The `ranlib` command creates or updates the symbol index of the archive. This allows the linker to efficiently find the required functions inside the static library.
+
+### Q3. When you run `nm` on your `client_static` executable, are the symbols for functions like `mystrlen` present? What does this tell you about how static linking works?
+
+Yes, symbols for functions such as `mystrlen` are present in the `client_static` executable.
+
+This shows that the required code from the static library was included in the final executable during the linking process. In static linking, the required library code becomes part of the executable itself.
