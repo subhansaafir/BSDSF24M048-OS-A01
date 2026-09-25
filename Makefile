@@ -5,14 +5,16 @@ PICFLAGS = -fPIC
 OBJDIR = obj
 BINDIR = bin
 LIBDIR = lib
+MANDIR = man/man3
 
-STATIC_LIB = $(LIBDIR)/libmyutils.a
 DYNAMIC_LIB = $(LIBDIR)/libmyutils.so
-
 TARGET = $(BINDIR)/client_dynamic
 
 MAIN_OBJ = $(OBJDIR)/main.o
 LIB_OBJS = $(OBJDIR)/mystrfunctions.o $(OBJDIR)/myfilefunctions.o
+
+INSTALL_BIN = /usr/local/bin
+INSTALL_MAN = /usr/local/share/man/man3
 
 all: $(TARGET)
 
@@ -30,6 +32,13 @@ $(OBJDIR)/mystrfunctions.o: src/mystrfunctions.c
 
 $(OBJDIR)/myfilefunctions.o: src/myfilefunctions.c
 	$(CC) $(CFLAGS) $(PICFLAGS) -c $< -o $@
+
+install: $(TARGET)
+	sudo mkdir -p $(INSTALL_BIN)
+	sudo mkdir -p $(INSTALL_MAN)
+	sudo cp $(TARGET) $(INSTALL_BIN)/client
+	sudo cp $(MANDIR)/* $(INSTALL_MAN)/
+	sudo mandb
 
 clean:
 	rm -f $(OBJDIR)/*.o $(DYNAMIC_LIB) $(BINDIR)/client_dynamic
