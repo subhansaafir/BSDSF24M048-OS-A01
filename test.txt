@@ -1,0 +1,4 @@
+hello, I am Subhan
+this is an operating systems assignment
+hello from C programming
+I am learning make
